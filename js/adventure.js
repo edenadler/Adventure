@@ -85,7 +85,7 @@ Adventures.initAdventure = function(){
 
     $.ajax("/start",{
         type: "POST",
-        data: {"user":
+        data: {"name":
             $("#nameField").val(),
             "adventure_id": $(this).val()
         },
@@ -93,6 +93,9 @@ Adventures.initAdventure = function(){
         contentType: "application/json",
         success: function (data) {
             console.log(data);
+            Adventures.currentAdventure = data["adventure"];
+            Adventures.currentStep = data["current"];
+//            or should it be: "Adventures.currentStep = data["current"];"???
             Adventures.write(data);
             $(".adventure").show();
             $(".welcome-screen").hide();

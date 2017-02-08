@@ -26,17 +26,28 @@ def start():
             print("cursor result:", result)
 
             for item in result:
-                print("into for loop")
-                print("item[name]:",item["name"],"username:",username)
                 if item["name"] == username:
-                    #todo will this start over and try to find a new name??
-                    if item["adventure_id"] == current_adv_id:
-                        user_id = item["id"]
-                        current_story_id = int(item["current_step"])
+
+                    sql1 = "SELECT adventure_id FROM userinfo WHERE name = '{}'".format(username)
+                    cursor.execute(sql1)
+                    user_adventures = cursor.fetchall()
+
+                    for info in user_adventures:
+                        if {"adventure_id": current_adv_id} == info:
+                            add_new_adventure = "INSERT INTO userinfo (name, current_step, adventure_id) VALUES ('{0}', '{1}', '{2}')".format(username, current_story_id, current_adv_id)
+                            cursor.execute(add_new_adventure)
+                            connection.commit()
+
                     else:
-                        add_new_adventure = "INSERT INTO userinfo (name, current_step, adventure_id) VALUES ('{0}', '{1}', '{2}')".format(username, current_story_id, current_adv_id)
-                        cursor.execute(add_new_adventure)
-                        connection.commit()
+                        sql2 = "SELECT adventure_id, current_step, id FROM userinfo WHERE name = '{}'".format(username)
+                        cursor.execute(sql2)
+                        username_info = cursor.fetchall()
+
+                        for info in username_info:
+                            if info["adventure_id"] == current_adv_id:
+                                user_id = item["id"]
+                                current_story_id = int(item["current_step"])
+
                 else:
                     print("else, no username")
                     add_user = "INSERT INTO userinfo (name, current_step, adventure_id) VALUES ('{0}', '{1}', '{2}')".format(username, current_story_id, current_adv_id)

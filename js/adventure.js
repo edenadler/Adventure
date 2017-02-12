@@ -1,14 +1,18 @@
 var Adventures = {};
-Adventures.currentAdventure = 0; //todo keep track from db
-//the current adventure is the adventure you choose at the beggining of the game
+//currentAdventure is used for the adventure we're currently on (id). This should be determined at the beginning of the program
+Adventures.currentAdventure = 1; //todo keep track from db
+//>>>>>>> eca66f829150c3676dd09324e4781f88db57d05b
 //currentStep is used for the step we're currently on (id). This should be determined at every crossroad, depending on what the user chose
 Adventures.currentStep = 0;//todo keep track from db
-Adventures.currentUser = 0;//todo keep track from db
+Adventures.currentUser = "";//todo keep track from db
+Adventures.currentScore = 90;
+Adventures.adv1 = [1,2,3,4,5,6,7]
+Adventures.adv2 = [8,9,10,11,12,13,14]
 
 
 //TODO: remove for production
 Adventures.debugMode = true;
-Adventures.DEFAULT_IMG = "./images/choice.jpg";
+Adventures.DEFAULT_IMG = "./images/decision.jpg";
 
 
 //Handle Ajax Error, animation error and speech support
@@ -25,21 +29,53 @@ Adventures.bindErrorHandlers = function () {
     });
 };
 
+Adventures.updateScore = function(){
+    if (Adventures.currentScore > 0){
+    $("#progress-bar").attr("aria-valuenow",Adventures.currentScore);
+    $("#progress-values").text(Adventures.currentScore + "% Complete (danger)");
+    $("#progress-bar").text(Adventures.currentScore +"%");
+    $("#progress-bar").css("width",Adventures.currentScore +"%");
+    }
+}
+
+Adventures.determineNextStep = function(){
+    if(Adventures.currentAdventure == 1){
+        nextStep = Adventures.adv1.pop(random.randrange(len(x)))
+        return nextStep
+    }
+    else if(Adventures.currentAdventure == 2){
+        nextStep = Adventures.adv2.pop(random.randrange(len(x)))
+        return nextStep
+     }
+
+    else{
+        x = [15,16,17,18,19,20,21]
+        nextStep = x.pop(random.randrange(len(x)))
+        return nextStep
+     }
+};
 
 //The core function of the app, sends the user's choice and then parses the results to the server and handling the response
 Adventures.chooseOption = function(){
-    Adventures.currentStep = $(this).val();
+    Adventures.currentScore += parseInt($(this).val());
+    Adventures.updateScore();
+    Adventures.currentStep +=1;
     $.ajax("/story",{
         type: "POST",
         data: {"user": Adventures.currentUser,
             "adventure": Adventures.currentAdventure,
-            "next": Adventures.currentStep},
+            "currentScore": Adventures.currentScore,
+            "nextStep": Adventures.currentStep
+            },
         dataType: "json",
         contentType: "application/json",
         success: function (data) {
-            console.log(data);
-            $(".greeting-text").hide();
             Adventures.write(data);
+            Adventures.checkScore(Adventures.currentScore)
+            Adventures.currentStep = data["current"];
+            console.log(data);
+            console.log(Adventures.currentScore);
+            $(".greeting-text").hide();
         }
     });
 };
@@ -49,8 +85,8 @@ Adventures.write = function (message) {
     $(".situation-text").text(message["text"]).show();
     for(var i=0;i<message['options'].length;i++){
         var opt = $("#option_" + (i+1));
-        opt.text(message['options'][i]['option_text']);
-        opt.prop("value", message['options'][i]['id']);
+        opt.text(message['options'][i]['question_options']);
+        opt.val(message['options'][i]['score']);
     }
     Adventures.setImage(message["image"]);
 };
@@ -63,12 +99,13 @@ Adventures.start = function(){
         $(".adventure-button").click(Adventures.initAdventure);
         $(".adventure").hide();
         $(".welcome-screen").show();
+        $(".lives").hide();
     });
 };
 
 //Setting the relevant image according to the server response
 Adventures.setImage = function (img_name) {
-    $("#situation-image").attr("src", "./images/" + img_name);
+    $("#situation-image").attr("src", "./images/" + img_name+".jpg");
 };
 
 Adventures.checkName = function(){
@@ -93,12 +130,16 @@ Adventures.initAdventure = function(){
         contentType: "application/json",
         success: function (data) {
             console.log(data);
+            Adventures.currentUser = data["user"];
             Adventures.currentAdventure = data["adventure"];
             Adventures.currentStep = data["current"];
-//            or should it be: "Adventures.currentStep = data["current"];"???
+            Adventures.currentScore = data["score"];
+            Adventures.updateScore();
+            $(".greeting-text").hide();
             Adventures.write(data);
             $(".adventure").show();
             $(".welcome-screen").hide();
+            $(".lives").show();
         }
     });
 };
@@ -117,6 +158,32 @@ Adventures.debugPrint = function (msg) {
     if (Adventures.debugMode) {
         console.log("Adventures DEBUG: " + msg)
     }
+};
+
+Adventures.showPopup = function(popupId){
+    $(".popup-page").hide();
+    $("#" + popupId).show();
+//    $(".popup-lightbox").fadeIn();
+};
+
+
+Adventures.checkScore = function(score){
+    if(score>=100){
+        Adventures.showPopup("Win");
+        $("#ok1").bind("click",function(){
+            Adventures.currentStep = 0;
+            location.reload();
+            Adventures.closepo
+        })
+    }
+    if(score<=0){
+        Adventures.showPopup("Lose");
+          $("#ok2").bind("click",function(){
+            Adventures.currentStep = 0;
+            location.reload();
+        })
+    }
+
 };
 
 Adventures.start();

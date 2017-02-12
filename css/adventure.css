@@ -1,8 +1,21 @@
 
 body{
-    background-image:url('../images/forest.jpg');
+    width: 100%;
+    height: auto;
+    background-image:url('../images/decision.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
+}
+
+.lives{
+    padding: 20px;
+    color: white;
+}
+
+.thumb-img{
+
 }
 
 .clickable{
@@ -28,7 +41,7 @@ text-align:center;
     top: 50%;
     transform: translateY(-50%) translateX(-50%);
     left: 50%;
-    position: absolute !important;
+    position: absolute  !important;
     background-color:#FFD6A8;
 }
 .situation-text{
@@ -54,14 +67,34 @@ text-align:center;
 .situation-text-holder{
 	text-align: center;
 	display: block;
+	width: 80%;
+	transform: translateX(12%);
 }
-
-
-
 
 .copyright{
     position: fixed;
     bottom: 0px;
     left: 0px;
     margin: 5px;
+}
+
+.popup{
+    background-color:white;
+    width:50%;
+    height:auto;
+}
+
+.popup .popup-content{
+    padding: 10px;
+    font-size: 20px;
+}
+
+
+.popup button{
+    background-color: dodgerblue;
+    border: none;
+    padding: 5px 30px;
+    border-radius: 4px;
+    margin: 5px;
+    color: white;
 }

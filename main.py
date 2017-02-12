@@ -3,7 +3,7 @@ import pymysql
 import random
 import json
 
-connection = pymysql.connect(host='sql9.freesqldatabase.com', user='sql9157851', password='nfeyJIT6YI',db='adventure', charset='utf8', cursorclass = pymysql.cursors.DictCursor)
+connection = pymysql.connect(host='sql9.freesqldatabase.com', user='sql9157851', password='nfeyJlT6Yl',db='sql9157851', charset='utf8', cursorclass = pymysql.cursors.DictCursor)
 
 
 @route("/", method="GET")

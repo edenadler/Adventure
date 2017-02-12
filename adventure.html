@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Create your own adventure</title>
+	<title>Life's Adventures</title>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" href="./css/adventure.css">
@@ -13,6 +13,16 @@
 </head>
 <body>
 <div class="row">
+	<div class = "lives">
+		<div class="col-md-3 col-md-offset-9">
+			<h4>Maturity Level</h4>
+			<div class="progress">
+				<div class="progress-bar progress-bar-danger progress-bar-striped" id="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+					<span class="sr-only" id="progress-values">80% Complete (danger)</span>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="col-md-3"><br></div>
 	<div class="choice-box shadowed col-md-6">
 		<div class="welcome-screen">
@@ -20,7 +30,7 @@
 			<div class="chat-window-header">
 				<div class="greeting-text col-md-9 col-md-offset-1">
 					<h1>
-						Hello and welcome to the "pick an adventure" game!
+						Welcome to the Game of Life!
 					</h1>
 
 				</div>
@@ -36,7 +46,9 @@
 			<!-- Options list -->
 			<div class="options-list">
 				<h2 class="name-text">What game would you like to play?</h2>
-				<button type="button" class="btn btn-default btn-lg btn-block adventure-button" id="adv_1" value="1" disabled="true">Swords and Dragons</button>
+				<button type="button" class="btn btn-default btn-lg btn-block adventure-button" id="adv_1" value="1" disabled="true">Childhood</button>
+				<button type="button" class="btn btn-default btn-lg btn-block adventure-button" id="adv_2" value="2" disabled="true">Teenage Years</button>
+				<button type="button" class="btn btn-default btn-lg btn-block adventure-button" id="adv_3" value="3" disabled="true">Adulthood</button>
 				<!--todo GeekOut: consider making this generic, if you have time-->
 
 			</div>
@@ -51,18 +63,24 @@
 
 				</div>
 			</div>
-			<!-- basice image-->
+			<!-- basic image-->
 			<div class="situation-text-holder">
-				<img id="situation-image" class="situation-image" src="./images/choice.jpg">
+				<div class="row">
+					<div class="col-sm-6 col-md-8 col-md-offset-2">
+						<a href="'#" class="thumbnail thumb-img">
+							<img id="situation-image" class="situation-image" src="./images/choice.jpg">
+						</a>
+					</div>
+				</div>
 				<h2 class="situation-text"></h2>
 			</div>
 			<!-- Options list -->
 			<div class="options-list">
 
-				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_1" value=""></button>
-				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_2" value="" ></button>
-				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_3" value="" ></button>
-				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_4" value="" ></button>
+				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_1"></button>
+				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_2"></button>
+				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_3"></button>
+				<button type="button" class="btn btn-primary btn-lg btn-block game-option" id="option_4"></button>
 			</div>
 		</div>
 

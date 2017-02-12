@@ -160,10 +160,11 @@ Adventures.debugPrint = function (msg) {
     }
 };
 
+
 Adventures.showPopup = function(popupId){
-    $(".popup-page").hide();
-    $("#" + popupId).show();
-//    $(".popup-lightbox").fadeIn();
+    $(".popup-lightbox .popup-page").hide();
+    $(".popup-lightbox .popup-page#" + popupId).show();
+    $(".popup-lightbox").fadeIn();
 };
 
 

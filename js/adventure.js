@@ -1,14 +1,10 @@
 var Adventures = {};
 //currentAdventure is used for the adventure we're currently on (id). This should be determined at the beginning of the program
 Adventures.currentAdventure = 1; //todo keep track from db
-//>>>>>>> eca66f829150c3676dd09324e4781f88db57d05b
 //currentStep is used for the step we're currently on (id). This should be determined at every crossroad, depending on what the user chose
 Adventures.currentStep = 0;//todo keep track from db
 Adventures.currentUser = "";//todo keep track from db
-Adventures.currentScore = 90;
-Adventures.adv1 = [1,2,3,4,5,6,7]
-Adventures.adv2 = [8,9,10,11,12,13,14]
-
+Adventures.currentScore = 10;
 
 //TODO: remove for production
 Adventures.debugMode = true;
@@ -31,50 +27,30 @@ Adventures.bindErrorHandlers = function () {
 
 Adventures.updateScore = function(){
     if (Adventures.currentScore > 0){
-    $("#progress-bar").attr("aria-valuenow",Adventures.currentScore);
-    $("#progress-values").text(Adventures.currentScore + "% Complete (danger)");
-    $("#progress-bar").text(Adventures.currentScore +"%");
-    $("#progress-bar").css("width",Adventures.currentScore +"%");
+        $("#progress-bar").attr("aria-valuenow",Adventures.currentScore);
+        $("#progress-values").text(Adventures.currentScore + "% Complete (danger)");
+        $("#progress-bar").text(Adventures.currentScore +"%");
+        $("#progress-bar").css("width",Adventures.currentScore +"%");
     }
 }
-
-Adventures.determineNextStep = function(){
-    if(Adventures.currentAdventure == 1){
-        nextStep = Adventures.adv1.pop(random.randrange(len(x)))
-        return nextStep
-    }
-    else if(Adventures.currentAdventure == 2){
-        nextStep = Adventures.adv2.pop(random.randrange(len(x)))
-        return nextStep
-     }
-
-    else{
-        x = [15,16,17,18,19,20,21]
-        nextStep = x.pop(random.randrange(len(x)))
-        return nextStep
-     }
-};
 
 //The core function of the app, sends the user's choice and then parses the results to the server and handling the response
 Adventures.chooseOption = function(){
     Adventures.currentScore += parseInt($(this).val());
     Adventures.updateScore();
-    Adventures.currentStep +=1;
+//    Adventures.currentStep +=1;
     $.ajax("/story",{
         type: "POST",
         data: {"user": Adventures.currentUser,
             "adventure": Adventures.currentAdventure,
             "currentScore": Adventures.currentScore,
-            "nextStep": Adventures.currentStep
             },
         dataType: "json",
         contentType: "application/json",
         success: function (data) {
-            Adventures.write(data);
-            Adventures.checkScore(Adventures.currentScore)
             Adventures.currentStep = data["current"];
-            console.log(data);
-            console.log(Adventures.currentScore);
+            Adventures.checkScore(Adventures.currentScore);
+            Adventures.write(data);
             $(".greeting-text").hide();
         }
     });
@@ -160,7 +136,6 @@ Adventures.debugPrint = function (msg) {
     }
 };
 
-
 Adventures.showPopup = function(popupId){
     $(".popup-lightbox .popup-page").hide();
     $(".popup-lightbox .popup-page#" + popupId).show();
@@ -172,17 +147,14 @@ Adventures.checkScore = function(score){
     if(score>=100){
         Adventures.showPopup("Win");
         $("#ok1").bind("click",function(){
-            Adventures.currentStep = 0;
-            location.reload();
-            Adventures.closepo
+                location.reload();
         })
     }
-    if(score<=0){
+    if(score<=0 || Adventures.currentStep == 0){
         Adventures.showPopup("Lose");
           $("#ok2").bind("click",function(){
-            Adventures.currentStep = 0;
-            location.reload();
-        })
+                location.reload();
+          })
     }
 
 };

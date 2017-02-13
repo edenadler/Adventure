@@ -42,7 +42,8 @@ text-align:center;
     transform: translateY(-50%) translateX(-50%);
     left: 50%;
     position: absolute  !important;
-    background-color:#FFD6A8;
+    color: white;
+    background-color:#bf4040;
 }
 .situation-text{
     display:block;
@@ -123,4 +124,29 @@ text-align:center;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+}
+
+.game-option{
+    background-color: #d98c8c;
+    border: 1px solid #d98c8c;
+}
+
+.game-option:hover{
+    background-color: #732626;
+    border: 1px solid #732626;
+}
+
+.game-option:active{
+    background-color: #732626;
+    border: 1px solid #732626;
+}
+
+.game-option:focus{
+    background-color: #732626;
+    border: 1px solid #732626;
+}
+
+.adventure-button:hover{
+    background-color: #df9f9f;
+    border: 1px solid #df9f9f;
 }
